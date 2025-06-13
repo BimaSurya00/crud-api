@@ -1,4 +1,8 @@
 import { DataSource } from "typeorm";
+import { Payment } from "../entities/payment";
+import { Reservation } from "../entities/reservation";
+import { Room } from "../entities/room";
+import { RoomType } from "../entities/room-type";
 import { User } from "../entities/user";
 
 export const AppDataSource = new DataSource({
@@ -10,7 +14,7 @@ export const AppDataSource = new DataSource({
   database: "testDB",
   synchronize: true,
   logging: true,
-  entities: [User],
+  entities: [User, RoomType, Room, Reservation, Payment],
   migrations: [],
   subscribers: [],
 });

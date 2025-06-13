@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { UserDto } from "../dto/user.dto";
+import { CreateUserDto } from "../dto/user.dto";
 import { UserService } from "../services/user.service";
 
 const userService = new UserService();
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const userDto: UserDto = req.body;
+    const userDto: CreateUserDto = req.body;
     const user = await userService.create(userDto);
     res.status(201).json(user);
   } catch (error: any) {
@@ -38,7 +38,7 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const userDto: UserDto = req.body;
+    const userDto: CreateUserDto = req.body;
     const updateUser = await userService.update(+req.params.id, userDto);
     if (!updateUser) {
       res.status(404).json({ message: "User not found" });

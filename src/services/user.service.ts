@@ -1,11 +1,11 @@
 import { AppDataSource } from "../config/database";
-import { UserDto } from "../dto/user.dto";
+import { CreateUserDto, UpdateUserDto } from "../dto/user.dto";
 import { User } from "../entities/user";
 
 export class UserService {
   private userRepository = AppDataSource.getRepository(User);
 
-  async create(userDto: UserDto): Promise<User> {
+  async create(userDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(userDto);
     return await this.userRepository.save(user);
   }
@@ -18,7 +18,7 @@ export class UserService {
     return await this.userRepository.findOneBy({ id });
   }
 
-  async update(id: number, userDto: UserDto): Promise<User | null> {
+  async update(id: number, userDto: UpdateUserDto): Promise<User | null> {
     const user = await this.getById(id);
     if (!user) return null;
     Object.assign(user, userDto);

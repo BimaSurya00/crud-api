@@ -1,6 +1,6 @@
 import { IsEmail, IsString } from "class-validator";
 
-export class UserDto {
+export class CreateUserDto {
   @IsString()
   name: string;
 
@@ -9,4 +9,15 @@ export class UserDto {
 
   @IsString()
   password: string;
+}
+
+export class UpdateUserDto {
+  @IsString()
+  name?: string;
+
+  @IsEmail()
+  email?: string;
+
+  @IsString()
+  password?: string;
 }
