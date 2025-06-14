@@ -1,7 +1,7 @@
 # Example NodeJS Express App
 
 This project contains the following
-- a sample webapp (built using Express v4.18) with the following endpoints available:
+- a sample webapp (built using Express) with the following endpoints available:
     - http://localhost:3000/
 
 # Running the project in Github Workspaces
