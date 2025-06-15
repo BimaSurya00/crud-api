@@ -4,7 +4,7 @@ This project contains the following
 - a sample webapp (built using Express) with the following endpoints available:
     - http://localhost:3000/
 
-# Running the project in Github Workspaces
+# Running the project 
 
 - In the workspace, first install the dependencies using `npm install`
 - After this, webapp can be started using `npm run start`
