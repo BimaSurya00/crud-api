@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CreateRoomDto } from "../dto/room.dto";
 import { RoomService } from "../services/room.service";
+import { ApiResponseUtil } from "../utlis/api-response.util";
 
 const roomService = new RoomService();
 
@@ -14,20 +15,28 @@ export const createRoom = async (req: Request, res: Response) => {
       });
       return;
     }
-
     const room = await roomService.create(roomDto);
-    res.status(201).json(room);
+
+    const response = ApiResponseUtil.created(room, "Room created successfully");
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
 
 export const getAllRooms = async (req: Request, res: Response) => {
   try {
     const rooms = await roomService.getAll();
-    res.status(200).json(rooms);
+
+    const response = ApiResponseUtil.success(
+      rooms,
+      "Room retrieved successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 500);
+    res.status(response.code).json({ response });
   }
 };
 
@@ -38,9 +47,15 @@ export const getRoomById = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Room not found" });
       return;
     }
-    res.status(200).json(room);
+
+    const response = ApiResponseUtil.success(
+      room,
+      "Room retrieved successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
 
@@ -54,9 +69,15 @@ export const updateRoom = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(200).json(updatedRoom);
+    const response = ApiResponseUtil.success(
+      updateRoom,
+      "Room updated successfully"
+    );
+
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
 
@@ -67,8 +88,11 @@ export const deleteRoom = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Room not found" });
       return;
     }
-    res.status(200).json({ message: "Room deleted successfully" });
+
+    const response = ApiResponseUtil.success(null, "Room deleted successfully");
+    res.status(response.code).json({ response });
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };

@@ -7,10 +7,12 @@ import {
   updatePayment,
 } from "../controllers/payment.controller";
 import {
+  addPaymentToReservation,
   createReservation,
   deleteReservation,
   getAllReservation,
   getReservationById,
+  getReservationPaymentSummary,
   updateReservation,
 } from "../controllers/reservation.controller";
 import {
@@ -64,6 +66,10 @@ router.get("/reservation", getAllReservation);
 router.get("/reservation/:id", getReservationById);
 router.put("/reservation/:id", updateReservation);
 router.delete("/reservation/:id", deleteReservation);
+// Payment routes for reservations
+router.post("/reservation/:id/payments", addPaymentToReservation);
+router.get("/reservation/:id/payments", getReservationPaymentSummary);
+router.get("/reservation/:id/payments/summary", getReservationPaymentSummary);
 
 // Payment routes
 router.post("/payment", createPayment);

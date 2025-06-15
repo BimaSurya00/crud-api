@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CreateRoomTypeDto } from "../dto/room-type.dto";
 import { RoomTypeService } from "../services/room-type";
+import { ApiResponseUtil } from "../utlis/api-response.util";
 
 const roomTypeService = new RoomTypeService();
 
@@ -8,18 +9,30 @@ export const createRoomType = async (req: Request, res: Response) => {
   try {
     const roomTypeDto: CreateRoomTypeDto = req.body;
     const roomType = await roomTypeService.create(roomTypeDto);
-    res.status(201).json(roomType);
+
+    const response = ApiResponseUtil.created(
+      roomType,
+      "RoomType created successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
 
 export const getAllRoomType = async (req: Request, res: Response) => {
   try {
     const roomType = await roomTypeService.getAll();
-    res.status(200).json(roomType);
+
+    const response = ApiResponseUtil.success(
+      roomType,
+      "RoomType retrieved successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 500);
+    res.status(response.code).json({ response });
   }
 };
 
@@ -30,9 +43,15 @@ export const getRoomTypeById = async (req: Request, res: Response) => {
       res.status(404).json({ message: "RoomType not found" });
       return;
     }
-    res.status(200).json(roomType);
+
+    const response = ApiResponseUtil.success(
+      roomType,
+      "RoomType retrieved successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
 
@@ -47,9 +66,16 @@ export const updateRoomType = async (req: Request, res: Response) => {
       res.status(404).json({ message: "RoomType not found" });
       return;
     }
-    res.status(200).json(updateRoomType);
+
+    const response = ApiResponseUtil.success(
+      updateRoomType,
+      "RoomType updated successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+
+    res.status(response.code).json({ response });
   }
 };
 
@@ -60,8 +86,14 @@ export const deleteRoomType = async (req: Request, res: Response) => {
       res.status(404).json({ message: "User not found" });
       return;
     }
-    res.status(200).json({ message: "RoomType deleted successfully" });
+
+    const response = ApiResponseUtil.success(
+      null,
+      "RoomType deleted successfully"
+    );
+    res.status(response.code).json({ response });
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };

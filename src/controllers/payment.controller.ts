@@ -1,25 +1,38 @@
 import { Request, Response } from "express";
 import { CreatePaymentDto, UpdatePaymentDto } from "../dto/payment.dto";
 import { PaymentService } from "../services/payment.service";
+import { ApiResponseUtil } from "../utlis/api-response.util";
 
 const paymentService = new PaymentService();
 
 export const createPayment = async (req: Request, res: Response) => {
   try {
     const paymentDto: CreatePaymentDto = req.body;
-    const reservation = await paymentService.create(paymentDto);
-    res.status(201).json(reservation);
+    const payment = await paymentService.create(paymentDto);
+
+    const response = ApiResponseUtil.created(
+      payment,
+      "Payment created successfully"
+    );
+    res.status(response.code).json(payment);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
 
 export const getAllPayment = async (req: Request, res: Response) => {
   try {
     const payment = await paymentService.getAll();
-    res.status(200).json(payment);
+
+    const response = ApiResponseUtil.success(
+      payment,
+      "Payment retrieved successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 500);
+    res.status(response.code).json({ response });
   }
 };
 
@@ -30,9 +43,16 @@ export const getPaymentById = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Payment not found" });
       return;
     }
-    res.status(200).json(payment);
+
+    const response = ApiResponseUtil.success(
+      payment,
+      "Payment retrieved successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+
+    res.status(response.code).json({ response });
   }
 };
 
@@ -47,9 +67,15 @@ export const updatePayment = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Payment not found " });
       return;
     }
-    res.status(200).json(updatePayment);
+
+    const response = ApiResponseUtil.success(
+      updatePayment,
+      "Payment updated successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
 
@@ -60,8 +86,14 @@ export const deletePayment = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Payment not found" });
       return;
     }
-    res.status(200).json({ message: "Payment deleted successfully" });
+
+    const response = ApiResponseUtil.success(
+      null,
+      "Payment deleted successfully"
+    );
+    res.status(response.code).json(response);
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const response = ApiResponseUtil.error(error.message, 400);
+    res.status(response.code).json({ response });
   }
 };
